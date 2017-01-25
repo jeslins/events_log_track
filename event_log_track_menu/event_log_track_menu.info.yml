@@ -1,0 +1,8 @@
+name: Events Log Track Menu
+description: 'Logs menu CUD events performed by the user.'
+type: module
+
+dependencies: 
+  - event_log_track
+package: Statistics
+core: '8.x'
