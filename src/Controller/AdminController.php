@@ -24,7 +24,7 @@ class AdminController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('form_builder')
+            $container->get('form_builder')
     );
   }
 
@@ -39,19 +39,13 @@ class AdminController extends ControllerBase {
   }
 
   /**
-   * Presents an administrative comment listing.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The request of the page.
-   * @param string $type
-   *   The type of the overview form ('approval' or 'new') default to 'new'.
+   * Presents an administrative events listing.
    *
    * @return array
-   *   Then comment multiple delete confirmation form or the comments overview
    *   administration form.
    */
-  public function adminPage(Request $request) {
-     return $this->formBuilder->getForm('\Drupal\event_log_track\OverviewForm');
+  public function adminPage() {
+    return $this->formBuilder->getForm('\Drupal\event_log_track\OverviewForm');
   }
 
 }

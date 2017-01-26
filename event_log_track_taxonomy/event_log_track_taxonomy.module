@@ -3,17 +3,23 @@
 /**
  * @file
  * Logs menu CUD commands in the event_log_track module.
-*/
+ */
 
 /**
  * Implements hook_event_log_track_handlers().
+ * 
  * @return array
+ *   An associative array, keyed by event type, and valued by handler info:
+ *   - {string} title
+ *     The title that describes the events logged by this handler.
+ *     This handler's 'form_submit_callback' callback will be notified when a
+ *     form is submitted that has an id as specified in this array. Optional.
  */
 function event_log_track_taxonomy_event_log_track_handlers() {
   // Taxonomy event log handler.
   $handlers = array();
   $handlers['taxonomy'] = array(
-    'title' => t('Taxonomy'),
+      'title' => t('Taxonomy'),
   );
   return $handlers;
 }
@@ -23,13 +29,13 @@ function event_log_track_taxonomy_event_log_track_handlers() {
  */
 function event_log_track_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'vocabulary insert',
-    'description' => t('%title (%name)', array(
-      '%title' => $vocabulary->get('name'),
-      '%name' => $vocabulary->get('vid')
-    )),
-    'ref_char' => $vocabulary->get('vid'),
+      'type' => 'taxonomy',
+      'operation' => 'vocabulary insert',
+      'description' => t('%title (%name)', array(
+          '%title' => $vocabulary->get('name'),
+          '%name' => $vocabulary->get('vid'),
+      )),
+      'ref_char' => $vocabulary->get('vid'),
   );
   event_log_track_insert($log);
 }
@@ -39,13 +45,13 @@ function event_log_track_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
  */
 function event_log_track_taxonomy_taxonomy_vocabulary_update($vocabulary) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'vocabulary update',
-    'description' => t('%title (%name)', array(
-      '%title' => $vocabulary->label(),
-      '%name' => $vocabulary->getOriginalId()
-    )),
-    'ref_char' => $vocabulary->getOriginalId(),
+      'type' => 'taxonomy',
+      'operation' => 'vocabulary update',
+      'description' => t('%title (%name)', array(
+          '%title' => $vocabulary->label(),
+          '%name' => $vocabulary->getOriginalId(),
+      )),
+      'ref_char' => $vocabulary->getOriginalId(),
   );
   event_log_track_insert($log);
 }
@@ -55,13 +61,13 @@ function event_log_track_taxonomy_taxonomy_vocabulary_update($vocabulary) {
  */
 function event_log_track_taxonomy_taxonomy_vocabulary_delete($vocabulary) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'vocabulary delete',
-    'description' => t('%title (%name)', array(
-      '%title' => $vocabulary->label(),
-      '%name' => $vocabulary->getOriginalId()
-    )),
-    'ref_char' => $vocabulary->getOriginalId(),
+      'type' => 'taxonomy',
+      'operation' => 'vocabulary delete',
+      'description' => t('%title (%name)', array(
+          '%title' => $vocabulary->label(),
+          '%name' => $vocabulary->getOriginalId(),
+      )),
+      'ref_char' => $vocabulary->getOriginalId(),
   );
   event_log_track_insert($log);
 }
@@ -71,14 +77,14 @@ function event_log_track_taxonomy_taxonomy_vocabulary_delete($vocabulary) {
  */
 function event_log_track_taxonomy_taxonomy_term_insert($term) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'term insert',
-    'description' => t('%name (%tid)', array(
-      '%name' => $term->getName(),
-      '%tid' => $term->id()
-    )),
-    'ref_numeric' => $term->id(),
-    'ref_char' => $term->get('vid')->target_id,
+      'type' => 'taxonomy',
+      'operation' => 'term insert',
+      'description' => t('%name (%tid)', array(
+          '%name' => $term->getName(),
+          '%tid' => $term->id(),
+      )),
+      'ref_numeric' => $term->id(),
+      'ref_char' => $term->get('vid')->target_id,
   );
   event_log_track_insert($log);
 }
@@ -88,14 +94,14 @@ function event_log_track_taxonomy_taxonomy_term_insert($term) {
  */
 function event_log_track_taxonomy_taxonomy_term_update($term) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'term update',
-    'description' => t('%name (%tid)', array(
-      '%name' => $term->getName(),
-      '%tid' => $term->id()
-    )),
-    'ref_numeric' => $term->id(),
-    'ref_char' => $term->get('vid')->target_id,
+      'type' => 'taxonomy',
+      'operation' => 'term update',
+      'description' => t('%name (%tid)', array(
+          '%name' => $term->getName(),
+          '%tid' => $term->id(),
+      )),
+      'ref_numeric' => $term->id(),
+      'ref_char' => $term->get('vid')->target_id,
   );
   event_log_track_insert($log);
 }
@@ -105,14 +111,14 @@ function event_log_track_taxonomy_taxonomy_term_update($term) {
  */
 function event_log_track_taxonomy_taxonomy_term_delete($term) {
   $log = array(
-    'type' => 'taxonomy',
-    'operation' => 'term delete',
-    'description' => t('%name (%tid)', array(
-      '%name' => $term->getName(),
-      '%tid' => $term->id()
-    )),
-    'ref_numeric' => $term->id(),
-    'ref_char' => $term->get('vid')->target_id,
+      'type' => 'taxonomy',
+      'operation' => 'term delete',
+      'description' => t('%name (%tid)', array(
+          '%name' => $term->getName(),
+          '%tid' => $term->id(),
+      )),
+      'ref_numeric' => $term->id(),
+      'ref_char' => $term->get('vid')->target_id,
   );
   event_log_track_insert($log);
 }

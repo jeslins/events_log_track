@@ -1,7 +1,6 @@
 name: Events Log Track User
 description: 'Logs user CUD events performed by the user.'
 type: module
-
 dependencies: 
   - event_log_track
 package: Statistics
