@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Logs user authentication (login logout and request password) in the event_log_track module.
+ * Logs user authentication (login logout and request password) in the
+ *   event_log_track module.
  */
 
 /**
@@ -22,15 +23,8 @@ function event_log_track_auth_event_log_track_handlers() {
 /**
  * Event log callback for the user authentication event log.
  *
- * @param $form
- *   An associative array containing the structure of the form.
- * @param $form_state
- *   The current state of the form.
- * @param $form_id
- *   The id of the form.
- *
  * @return array
- *   Return an associative array.
+ *   Return an associative array of data to insert in database.
  */
 function event_log_track_auth_form_submit($form, $form_state, $form_id) {
   $account = \Drupal::currentUser();
@@ -40,20 +34,19 @@ function event_log_track_auth_form_submit($form, $form_state, $form_id) {
       $log = array(
         'operation' => 'login',
         'description' => t('%user (uid %uid)', array(
-            '%user' => $account->getUsername(),
-            '%uid' => $account->id(),
+          '%user' => $account->getUsername(),
+          '%uid' => $account->id(),
         )),
         'ref_numeric' => $account->id(),
         'ref_char' => $account->getUsername(),
       );
-
       break;
     case 'user_pass':
       $log = array(
         'operation' => 'request password',
         'description' => t('%user (uid %uid)', array(
-            '%user' => $form_state->getValue('name'),
-            '%uid' => $form_state->getValue('account')->id(),
+          '%user' => $form_state->getValue('name'),
+          '%uid' => $form_state->getValue('account')->id(),
         )),
         'ref_numeric' => $form_state->getValue('account')->id(),
         'ref_char' => $form_state->getValue('name'),
@@ -71,8 +64,8 @@ function event_log_track_auth_user_logout($account) {
     'type' => 'authentication',
     'operation' => 'logout',
     'description' => t('%user (uid %uid)', array(
-        '%user' => $account->getUsername(),
-        '%uid' => $account->id(),
+      '%user' => $account->getUsername(),
+      '%uid' => $account->id(),
     )),
     'ref_numeric' => $account->id(),
     'ref_char' => $account->getUsername(),
@@ -98,8 +91,8 @@ function event_log_track_auth_user_login_validate($form, &$form_state) {
       'type' => 'authentication',
       'operation' => 'fail',
       'description' => t('%user (pass %pass)', array(
-          '%user' => $form_state->getValue('name'),
-          '%pass' => $form_state->getValue('pass'),
+        '%user' => $form_state->getValue('name'),
+        '%pass' => $form_state->getValue('pass'),
       )),
       'ref_char' => $form_state->getValue('name'),
     );

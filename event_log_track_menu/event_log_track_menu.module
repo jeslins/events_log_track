@@ -7,19 +7,6 @@
 
 /**
  * Implements hook_event_log_track_handlers().
- * 
- * @return array
- *   An associative array, keyed by event type, and valued by handler info:
- *   - {string} title
- *     The title that describes the events logged by this handler.
- *     This handler's 'form_submit_callback' callback will be notified when a
- *     form is submitted that has an id as specified in this array. Optional.
- *   - {array} form_ids_regexp
- *     The same as form_ids, but instead of identical matches regular
- *     expressions can be specified.
- *   - {string} form_submit_callback
- *     Callback that's called when a form is submitted with a form id as
- *     specified in form_ids. The callback function profile:
  */
 function event_log_track_menu_event_log_track_handlers() {
   $handlers = array();
@@ -27,8 +14,8 @@ function event_log_track_menu_event_log_track_handlers() {
   $handlers['menu'] = array(
     'title' => t('Menu'),
     'form_ids' => array(
-        'menu_link_content_menu_link_content_form',
-        'menu_link_content_menu_link_content_delete_form',
+      'menu_link_content_menu_link_content_form',
+      'menu_link_content_menu_link_content_delete_form',
     ),
     'form_submit_callback' => 'event_log_track_menu_form_submit',
   );
@@ -38,13 +25,8 @@ function event_log_track_menu_event_log_track_handlers() {
 /**
  * Event log callback for the user authentication event log.
  *
- * @param $form
- *   An associative array containing the structure of the form.
- * @param $form_state
- *   The current state of the form.
- *
  * @return array
- *   Return an associative array.
+ *   Return an associative array to log data in database.
  */
 function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $log = NULL;
@@ -62,8 +44,8 @@ function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormSt
         $log = array(
           'operation' => 'link insert',
           'description' => t('%title, %path', array(
-              '%title' => $get_title,
-              '%path' => $get_path,
+            '%title' => $get_title,
+            '%path' => $get_path,
           )),
           'ref_char' => $get_menu_parent,
         );
@@ -73,15 +55,14 @@ function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormSt
         $log = array(
           'operation' => 'link update',
           'description' => t('%title (%id), %path', array(
-              '%title' => $get_title,
-              '%id' => $route_parameters->get('id')->value,
-              '%path' => $get_path,
+            '%title' => $get_title,
+            '%id' => $route_parameters->get('id')->value,
+            '%path' => $get_path,
           )),
           'ref_numeric' => $route_parameters->get('id')->value,
           'ref_char' => $route_parameters->getMenuName(),
         );
       }
-
       break;
     case 'menu_link_content_menu_link_content_delete_form':
       // Delete Menu Link.
@@ -90,14 +71,13 @@ function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormSt
       $log = array(
         'operation' => 'link delete',
         'description' => t('%title (%id), %path', array(
-            '%title' => $route_parameters->getTitle(),
-            '%id' => $route_parameters->get('id')->value,
-            '%path' => $uri,
+          '%title' => $route_parameters->getTitle(),
+          '%id' => $route_parameters->get('id')->value,
+          '%path' => $uri,
         )),
         'ref_numeric' => $route_parameters->get('id')->value,
         'ref_char' => $route_parameters->getMenuName(),
       );
-
       break;
   }
   return $log;
@@ -111,8 +91,8 @@ function event_log_track_menu_menu_insert($menu) {
     'type' => 'menu',
     'operation' => 'insert',
     'description' => t('%title (%name)', array(
-        '%title' => $menu->get('label'),
-        '%name' => $menu->get('id'),
+      '%title' => $menu->get('label'),
+      '%name' => $menu->get('id'),
     )),
     'ref_char' => $menu->get('id'),
   );
@@ -127,8 +107,8 @@ function event_log_track_menu_menu_update($menu) {
     'type' => 'menu',
     'operation' => 'update',
     'description' => t('%title (%name)', array(
-        '%title' => $menu->get('label'),
-        '%name' => $menu->get('id'),
+      '%title' => $menu->get('label'),
+      '%name' => $menu->get('id'),
     )),
     'ref_char' => $menu->get('id'),
   );
@@ -143,8 +123,8 @@ function event_log_track_menu_menu_delete($menu) {
     'type' => 'menu',
     'operation' => 'delete',
     'description' => t('%title (%name)', array(
-        '%title' => $menu->get('label'),
-        '%name' => $menu->get('id'),
+      '%title' => $menu->get('label'),
+      '%name' => $menu->get('id'),
     )),
     'ref_char' => $menu->get('id'),
   );

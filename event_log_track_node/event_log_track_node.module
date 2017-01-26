@@ -25,8 +25,8 @@ function event_log_track_node_insert($node) {
     'type' => 'node',
     'operation' => 'insert',
     'description' => t('%type: %title', array(
-        '%type' => $node->getType(),
-        '%title' => $node->getTitle(),
+      '%type' => $node->getType(),
+      '%title' => $node->getTitle(),
     )),
     'ref_numeric' => $node->id(),
     'ref_char' => $node->getTitle(),
@@ -42,8 +42,8 @@ function event_log_track_node_update($node) {
     'type' => 'node',
     'operation' => 'update',
     'description' => t('%type: %title', array(
-        '%type' => $node->getType(),
-        '%title' => $node->getTitle(),
+      '%type' => $node->getType(),
+      '%title' => $node->getTitle(),
     )),
     'ref_numeric' => $node->id(),
     'ref_char' => $node->getTitle(),
@@ -59,8 +59,8 @@ function event_log_track_node_delete($node) {
     'type' => 'node',
     'operation' => 'delete',
     'description' => t('%type: %title', array(
-        '%type' => $node->getType(),
-        '%title' => $node->getTitle(),
+      '%type' => $node->getType(),
+      '%title' => $node->getTitle(),
     )),
     'ref_numeric' => $node->id(),
     'ref_char' => $node->getTitle(),

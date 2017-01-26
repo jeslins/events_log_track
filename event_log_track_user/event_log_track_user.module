@@ -25,8 +25,8 @@ function event_log_track_user_insert($account) {
     'type' => 'user',
     'operation' => 'insert',
     'description' => t('%name (uid %uid)', array(
-        '%name' => $account->getUsername(),
-        '%uid' => $account->id(),
+      '%name' => $account->getUsername(),
+      '%uid' => $account->id(),
     )),
     'ref_numeric' => $account->id(),
     'ref_char' => $account->getUsername(),
@@ -42,8 +42,8 @@ function event_log_track_user_update($account) {
     'type' => 'user',
     'operation' => 'update',
     'description' => t('%name (uid %uid)', array(
-        '%name' => $account->original->getUsername(),
-        '%uid' => $account->original->id(),
+      '%name' => $account->original->getUsername(),
+      '%uid' => $account->original->id(),
     )),
     'ref_numeric' => $account->original->id(),
     'ref_char' => $account->getUsername(),
@@ -59,8 +59,8 @@ function event_log_track_user_delete($account) {
     'type' => 'user',
     'operation' => 'delete',
     'description' => t('%name (uid %uid)', array(
-        '%name' => $account->getUsername(),
-        '%uid' => $account->id(),
+      '%name' => $account->getUsername(),
+      '%uid' => $account->id(),
     )),
     'ref_numeric' => $account->id(),
     'ref_char' => $account->getUsername(),

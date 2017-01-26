@@ -25,8 +25,8 @@ function event_log_track_taxonomy_taxonomy_vocabulary_insert($vocabulary) {
     'type' => 'taxonomy',
     'operation' => 'vocabulary insert',
     'description' => t('%title (%name)', array(
-        '%title' => $vocabulary->get('name'),
-        '%name' => $vocabulary->get('vid'),
+      '%title' => $vocabulary->get('name'),
+      '%name' => $vocabulary->get('vid'),
     )),
     'ref_char' => $vocabulary->get('vid'),
   );
@@ -41,8 +41,8 @@ function event_log_track_taxonomy_taxonomy_vocabulary_update($vocabulary) {
     'type' => 'taxonomy',
     'operation' => 'vocabulary update',
     'description' => t('%title (%name)', array(
-        '%title' => $vocabulary->label(),
-        '%name' => $vocabulary->getOriginalId(),
+      '%title' => $vocabulary->label(),
+      '%name' => $vocabulary->getOriginalId(),
     )),
     'ref_char' => $vocabulary->getOriginalId(),
   );
@@ -57,8 +57,8 @@ function event_log_track_taxonomy_taxonomy_vocabulary_delete($vocabulary) {
     'type' => 'taxonomy',
     'operation' => 'vocabulary delete',
     'description' => t('%title (%name)', array(
-        '%title' => $vocabulary->label(),
-        '%name' => $vocabulary->getOriginalId(),
+      '%title' => $vocabulary->label(),
+      '%name' => $vocabulary->getOriginalId(),
     )),
     'ref_char' => $vocabulary->getOriginalId(),
   );
@@ -73,8 +73,8 @@ function event_log_track_taxonomy_taxonomy_term_insert($term) {
     'type' => 'taxonomy',
     'operation' => 'term insert',
     'description' => t('%name (%tid)', array(
-        '%name' => $term->getName(),
-        '%tid' => $term->id(),
+      '%name' => $term->getName(),
+      '%tid' => $term->id(),
     )),
     'ref_numeric' => $term->id(),
     'ref_char' => $term->get('vid')->target_id,
@@ -90,8 +90,8 @@ function event_log_track_taxonomy_taxonomy_term_update($term) {
     'type' => 'taxonomy',
     'operation' => 'term update',
     'description' => t('%name (%tid)', array(
-        '%name' => $term->getName(),
-        '%tid' => $term->id(),
+      '%name' => $term->getName(),
+      '%tid' => $term->id(),
     )),
     'ref_numeric' => $term->id(),
     'ref_char' => $term->get('vid')->target_id,
@@ -107,8 +107,8 @@ function event_log_track_taxonomy_taxonomy_term_delete($term) {
     'type' => 'taxonomy',
     'operation' => 'term delete',
     'description' => t('%name (%tid)', array(
-        '%name' => $term->getName(),
-        '%tid' => $term->id(),
+      '%name' => $term->getName(),
+      '%tid' => $term->id(),
     )),
     'ref_numeric' => $term->id(),
     'ref_char' => $term->get('vid')->target_id,

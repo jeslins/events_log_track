@@ -9,12 +9,12 @@ class EventLogStorage {
 
   /**
    * Display event data listing.
-   * 
-   * @param $getData
+   *
+   * @param array $getData
    *   Filter to display data.
-   * @param $header
+   * @param array $header
    *   Data sorting type.
-   * @param $limit
+   * @param int $limit
    *   Limit to display data.
    *
    * @return array

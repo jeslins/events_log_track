@@ -3,7 +3,7 @@
 /**
  * @file
  * The 'Event log Track' module track thr logs in database form submissions or
-other actions that were performed on the website.
+ *   other actions that were performed on the website.
  */
 
 use Drupal\Core\Render\Element;
@@ -53,15 +53,15 @@ function event_log_track_insert(array &$log) {
   \Drupal::database()->merge('event_log_track')
     ->key('lid')
     ->fields(array(
-        'type' => $log['type'],
-        'operation' => $log['operation'],
-        'description' => $log['description'],
-        'created' => $log['created'],
-        'uid' => $log['uid'],
-        'ip' => $log['ip'],
-        'path' => $log['path'],
-        'ref_char' => $log['ref_char'],
-        'ref_numeric' => $log['ref_numeric'],
+      'type' => $log['type'],
+      'operation' => $log['operation'],
+      'description' => $log['description'],
+      'created' => $log['created'],
+      'uid' => $log['uid'],
+      'ip' => $log['ip'],
+      'path' => $log['path'],
+      'ref_char' => $log['ref_char'],
+      'ref_numeric' => $log['ref_numeric'],
     ))
     ->execute();
 }

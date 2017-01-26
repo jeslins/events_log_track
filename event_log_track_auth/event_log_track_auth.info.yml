@@ -1,7 +1,7 @@
 name: Events Log Track User Authentication
-description: 'Logs user authentication (login/logout/request password).'
+description: 'Logs user authentication (login logout and request password).'
 type: module
 dependencies: 
   - event_log_track
-package: Statistics
 core: '8.x'
+package: Statistics
