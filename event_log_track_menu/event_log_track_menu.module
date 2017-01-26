@@ -64,6 +64,7 @@ function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormSt
         );
       }
       break;
+
     case 'menu_link_content_menu_link_content_delete_form':
       // Delete Menu Link.
       $route_parameters = \Drupal::routeMatch()->getParameter('menu_link_content');

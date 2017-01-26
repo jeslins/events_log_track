@@ -2,8 +2,7 @@
 
 /**
  * @file
- * The 'Event log Track' module track thr logs in database form submissions or
- *   other actions that were performed on the website.
+ * The 'Event log Track' module track thr logs in database form submissions or other actions that were performed on the website.
  */
 
 use Drupal\Core\Render\Element;

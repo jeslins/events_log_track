@@ -20,7 +20,7 @@ class EventLogStorage {
    * @return array
    *   The result to display.
    */
-  public static function getSearchData($getData = array(), $header = array(), $limit = NULL) {
+  public static function getSearchData($getData, $header, $limit = NULL) {
 
     $db = \Drupal::database();
     $query = $db->select('event_log_track', 'e');
@@ -65,7 +65,7 @@ class EventLogStorage {
   /**
    * Returns the form element for the operations based on the event log type.
    *
-   * @param $type
+   * @param string $type
    *   Event type
    *
    * @return array

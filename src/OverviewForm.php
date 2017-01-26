@@ -101,7 +101,11 @@ class OverviewForm extends FormBase {
     );
 
     $header = array(
-        array('data' => $this->t('Updated'), 'field' => 'created', 'sort' => 'desc'),
+        array(
+          'data' => $this->t('Updated'),
+          'field' => 'created',
+          'sort' => 'desc'
+        ),
         array('data' => $this->t('Type'), 'field' => 'type'),
         array('data' => $this->t('Operation'), 'field' => 'operation'),
         array('data' => $this->t('Path'), 'field' => 'path'),

@@ -2,8 +2,7 @@
 
 /**
  * @file
- * Logs user authentication (login logout and request password) in the
- *   event_log_track module.
+ * Logs user authentication (login logout and request password) in the event_log_track module.
  */
 
 /**
@@ -41,6 +40,7 @@ function event_log_track_auth_form_submit($form, $form_state, $form_id) {
         'ref_char' => $account->getUsername(),
       );
       break;
+
     case 'user_pass':
       $log = array(
         'operation' => 'request password',
