@@ -1,5 +1,7 @@
 <?php
 
+use \Drupal\Core\Form\FormStateInterface;
+
 /**
  * @file
  * Logs menu CUD commands in the event_log_track module.
@@ -28,7 +30,7 @@ function event_log_track_menu_event_log_track_handlers() {
  * @return array
  *   Return an associative array to log data in database.
  */
-function event_log_track_menu_form_submit(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function event_log_track_menu_form_submit(array &$form, FormStateInterface $form_state, $form_id) {
   $log = NULL;
 
   switch ($form_id) {

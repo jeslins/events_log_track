@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Logs user authentication (login logout and request password) in the event_log_track module.
+ * Logs user authentication in the event_log_track module.
  */
+
+use \Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_event_log_track_handlers().
@@ -76,7 +78,7 @@ function event_log_track_auth_user_logout($account) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function event_log_track_auth_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function event_log_track_auth_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['#validate'][] = 'event_log_track_auth_user_login_validate';
 }
 

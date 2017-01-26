@@ -2,11 +2,12 @@
 
 /**
  * @file
- * The 'Event log Track' module track thr logs in database form submissions or other actions that were performed on the website.
+ * Track the logs of form submissions or other actions that performed by user.
  */
 
 use Drupal\Core\Render\Element;
 use \Drupal\Core\Url;
+use \Drupal\Core\Form\FormStateInterface;
 
 /**
  * Inserts the log record in the event log track. Sets the lid.
@@ -83,7 +84,7 @@ function event_log_track_get_event_handlers() {
 /**
  * Form submission callback.
  */
-function event_log_track_form_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function event_log_track_form_submit(&$form, FormStateInterface $form_state) {
   if (!empty($form_state->__event_log_track_logged)) {
     // Some forms are submitted twice, for instance the node_form.
     // We will only call the submit callback once.
@@ -129,7 +130,7 @@ function event_log_track_form_submit(&$form, \Drupal\Core\Form\FormStateInterfac
 /**
  * Implements hook_form_alter().
  */
-function event_log_track_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function event_log_track_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Add submit callback to ANY form action.
   event_log_track_add_submit_handler($form, 'event_log_track_form_submit');
 }

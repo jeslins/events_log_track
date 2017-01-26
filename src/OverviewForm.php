@@ -104,7 +104,7 @@ class OverviewForm extends FormBase {
         array(
           'data' => $this->t('Updated'),
           'field' => 'created',
-          'sort' => 'desc'
+          'sort' => 'desc',
         ),
         array('data' => $this->t('Type'), 'field' => 'type'),
         array('data' => $this->t('Operation'), 'field' => 'operation'),

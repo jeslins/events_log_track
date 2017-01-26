@@ -1,5 +1,4 @@
 <?php
-
 namespace Drupal\event_log_track;
 
 /**
@@ -20,7 +19,7 @@ class EventLogStorage {
    * @return array
    *   The result to display.
    */
-  public static function getSearchData($getData, $header, $limit = NULL) {
+  public static function getSearchData(array $getData, array $header, $limit = NULL) {
 
     $db = \Drupal::database();
     $query = $db->select('event_log_track', 'e');
@@ -66,7 +65,7 @@ class EventLogStorage {
    * Returns the form element for the operations based on the event log type.
    *
    * @param string $type
-   *   Event type
+   *   Event type.
    *
    * @return array
    *   A form element.
