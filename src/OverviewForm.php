@@ -17,19 +17,19 @@ class OverviewForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  function getFormId() {
+  public function getFormId() {
     return 'event_log_track_filter';
   }
 
   /**
    * {@inheritdoc}
    */
-  function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $form['filters'] = array(
-        '#type' => 'details',
-        '#title' => $this->t('Filters'),
-        '#description' => $this->t('Filter the events.'),
-        '#open' => FALSE,
+      '#type' => 'details',
+      '#title' => $this->t('Filters'),
+      '#description' => $this->t('Filter the events.'),
+      '#open' => FALSE,
     );
 
     $handlers = event_log_track_get_event_handlers();
@@ -38,70 +38,71 @@ class OverviewForm extends FormBase {
       $options[$type] = $handler['title'];
     }
     $form['filters']['type'] = array(
-        '#type' => 'select',
-        '#title' => $this->t('Type'),
-        '#description' => $this->t('Event type'),
-        '#options' => array('' => 'Select a type') + $options,
-        '#ajax' => array(
-            'callback' => '::formGetAjaxOperation',
-            'event' => 'change',
-        ),
+      '#type' => 'select',
+      '#title' => $this->t('Type'),
+      '#description' => $this->t('Event type'),
+      '#options' => array('' => 'Select a type') + $options,
+      '#ajax' => array(
+          'callback' => '::formGetAjaxOperation',
+          'event' => 'change',
+      ),
     );
 
     $form['filters']['operation'] = EventLogStorage::formGetOperations(empty($form_state->getUserInput()['type']) ? '' : $form_state->getUserInput()['type']);
 
     $form['filters']['user'] = array(
-        '#type' => 'entity_autocomplete',
-        '#target_type' => 'user',
-        '#selection_settings' => ['include_anonymous' => FALSE],
-        '#title' => $this->t('User'),
-        '#description' => $this->t('The user that triggered this event.'),
-        '#size' => 30,
-        '#maxlength' => 60,
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'user',
+      '#selection_settings' => ['include_anonymous' => FALSE],
+      '#title' => $this->t('User'),
+      '#description' => $this->t('The user that triggered this event.'),
+      '#size' => 30,
+      '#maxlength' => 60,
     );
 
     $form['filters']['id'] = array(
-        '#type' => 'textfield',
-        '#size' => 5,
-        '#title' => $this->t('ID'),
-        '#description' => $this->t('The id of the subject (numeric).'),
+      '#type' => 'textfield',
+      '#size' => 5,
+      '#title' => $this->t('ID'),
+      '#description' => $this->t('The id of the subject (numeric).'),
     );
 
     $form['filters']['ip'] = array(
-        '#type' => 'textfield',
-        '#size' => 20,
-        '#title' => $this->t('IP'),
-        '#description' => $this->t('The ip address of the visitor.'),
+      '#type' => 'textfield',
+      '#size' => 20,
+      '#title' => $this->t('IP'),
+      '#description' => $this->t('The ip address of the visitor.'),
     );
 
     $form['filters']['name'] = array(
-        '#type' => 'textfield',
-        '#size' => 10,
-        '#title' => $this->t('Name'),
-        '#description' => $this->t('The (machine) name of the subject.'),
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#title' => $this->t('Name'),
+      '#description' => $this->t('The (machine) name of the subject.'),
     );
 
     $form['filters']['path'] = array(
-        '#type' => 'textfield',
-        '#size' => 30,
-        '#title' => $this->t('Path'),
-        '#description' => $this->t('The full path.'),
+      '#type' => 'textfield',
+      '#size' => 30,
+      '#title' => $this->t('Path'),
+      '#description' => $this->t('The full path.'),
     );
 
     $form['filters']['keyword'] = array(
-        '#type' => 'textfield',
-        '#size' => 10,
-        '#title' => $this->t('Keyword'),
-        '#description' => $this->t('Search in the description.'),
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#title' => $this->t('Keyword'),
+      '#description' => $this->t('Search in the description.'),
     );
 
     $form['filters']['submit'] = array(
-        '#type' => 'submit',
-        '#value' => $this->t('Submit'),
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
     );
 
     $header = array(
-        array('data' => $this->t('Updated'), 'field' => 'created', 'sort' => 'desc'),
+        array('data' => $this->t('Updated'), 'field' => 'created',
+            'sort' => 'desc'),
         array('data' => $this->t('Type'), 'field' => 'type'),
         array('data' => $this->t('Operation'), 'field' => 'operation'),
         array('data' => $this->t('Path'), 'field' => 'path'),
@@ -140,15 +141,15 @@ class OverviewForm extends FormBase {
 
     // Generate the table.
     $build['config_table'] = array(
-        '#theme' => 'table',
-        '#header' => $header,
-        '#rows' => $rows,
-        '#empty' => $this->t('No events found.'),
+      '#theme' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => $this->t('No events found.'),
     );
 
     // Finally add the pager.
     $build['pager'] = array(
-        '#type' => 'pager',
+      '#type' => 'pager',
     );
     $form['results'] = $build;
 
@@ -158,7 +159,7 @@ class OverviewForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     $form_state->disableRedirect();
     $form_state->setRebuild();
   }
@@ -166,7 +167,7 @@ class OverviewForm extends FormBase {
   /**
    * Ajax callback for the operations options.
    */
-  function formGetAjaxOperation(array &$form, FormStateInterface $form_state) {
+  public function formGetAjaxOperation(array &$form, FormStateInterface $form_state) {
     $ajax_response = new AjaxResponse();
 
     $element = EventLogStorage::formGetOperations($form_state->getValue('type'));

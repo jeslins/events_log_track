@@ -3,33 +3,33 @@
 namespace Drupal\event_log_track;
 
 /**
- * Controller class for event log track.
- * required special handling for events.
+ * Controller class for event log track required special handling for events.
  */
 class EventLogStorage {
 
   /**
+   * Display event data listing.
    * 
-   * @param type $getData
-   *   Filter to display data
-   * @param type $header
-   *   Data sorting type
-   * @param type $limit
-   *   Limit to display data
-   * 
-   * @return type
+   * @param $getData
+   *   Filter to display data.
+   * @param $header
+   *   Data sorting type.
+   * @param $limit
+   *   Limit to display data.
+   *
+   * @return array
    *   The result to display.
    */
-  static function getSearchData($getData = array(), $header = array(), $limit = NULL) {
+  public static function getSearchData($getData = array(), $header = array(), $limit = NULL) {
 
     $db = \Drupal::database();
     $query = $db->select('event_log_track', 'e');
     $query->fields('e');
 
     $table_sort = $query->extend('Drupal\Core\Database\Query\TableSortExtender')
-            ->orderByHeader($header);
+      ->orderByHeader($header);
     $pager = $table_sort->extend('Drupal\Core\Database\Query\PagerSelectExtender')
-            ->limit($limit);
+      ->limit($limit);
 
     // Apply filters.
     if (!empty($getData['type'])) {
@@ -64,29 +64,29 @@ class EventLogStorage {
 
   /**
    * Returns the form element for the operations based on the event log type.
-   * 
+   *
    * @param $type
    *   Event type
-   * 
-   * @return
+   *
+   * @return array
    *   A form element.
    */
-  static function formGetOperations($type) {
+  public static function formGetOperations($type) {
     $element = array(
-        '#type' => 'select',
-        '#name' => 'operation',
-        '#title' => t('Operation'),
-        '#description' => t('The entity operation.'),
-        '#options' => array('' => t('Choose an operation')),
-        '#prefix' => '<div id="operation-dropdown-replace">',
-        '#suffix' => '</div>',
+      '#type' => 'select',
+      '#name' => 'operation',
+      '#title' => t('Operation'),
+      '#description' => t('The entity operation.'),
+      '#options' => array('' => t('Choose an operation')),
+      '#prefix' => '<div id="operation-dropdown-replace">',
+      '#suffix' => '</div>',
     );
     if ($type) {
       $db = \Drupal::database();
       $query = $db->select('event_log_track', 'e')
-              ->fields('e', ['operation'])
-              ->condition('type', $type)
-              ->groupBy('operation');
+        ->fields('e', ['operation'])
+        ->condition('type', $type)
+        ->groupBy('operation');
       $query->addExpression('COUNT(e.lid)', 'c');
       $query->distinct(TRUE);
       $results = $query->execute()->fetchAllKeyed(0);

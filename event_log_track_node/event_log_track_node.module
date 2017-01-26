@@ -7,19 +7,12 @@
 
 /**
  * Implements hook_event_log_track_handlers().
- * 
- * @return array
- *   An associative array, keyed by event type, and valued by handler info:
- *   - {string} title
- *     The title that describes the events logged by this handler.
- *     This handler's 'form_submit_callback' callback will be notified when a
- *     form is submitted that has an id as specified in this array. Optional.
  */
 function event_log_track_node_event_log_track_handlers() {
   // Node event log handler.
   $handlers = array();
   $handlers['node'] = array(
-      'title' => t('Node'),
+    'title' => t('Node'),
   );
   return $handlers;
 }
@@ -29,14 +22,14 @@ function event_log_track_node_event_log_track_handlers() {
  */
 function event_log_track_node_insert($node) {
   $log = array(
-      'type' => 'node',
-      'operation' => 'insert',
-      'description' => t('%type: %title', array(
-          '%type' => $node->getType(),
-          '%title' => $node->getTitle()
-      )),
-      'ref_numeric' => $node->id(),
-      'ref_char' => $node->getTitle(),
+    'type' => 'node',
+    'operation' => 'insert',
+    'description' => t('%type: %title', array(
+        '%type' => $node->getType(),
+        '%title' => $node->getTitle(),
+    )),
+    'ref_numeric' => $node->id(),
+    'ref_char' => $node->getTitle(),
   );
   event_log_track_insert($log);
 }
@@ -46,14 +39,14 @@ function event_log_track_node_insert($node) {
  */
 function event_log_track_node_update($node) {
   $log = array(
-      'type' => 'node',
-      'operation' => 'update',
-      'description' => t('%type: %title', array(
-          '%type' => $node->getType(),
-          '%title' => $node->getTitle()
-      )),
-      'ref_numeric' => $node->id(),
-      'ref_char' => $node->getTitle(),
+    'type' => 'node',
+    'operation' => 'update',
+    'description' => t('%type: %title', array(
+        '%type' => $node->getType(),
+        '%title' => $node->getTitle(),
+    )),
+    'ref_numeric' => $node->id(),
+    'ref_char' => $node->getTitle(),
   );
   event_log_track_insert($log);
 }
@@ -63,14 +56,14 @@ function event_log_track_node_update($node) {
  */
 function event_log_track_node_delete($node) {
   $log = array(
-      'type' => 'node',
-      'operation' => 'delete',
-      'description' => t('%type: %title', array(
-          '%type' => $node->getType(),
-          '%title' => $node->getTitle()
-      )),
-      'ref_numeric' => $node->id(),
-      'ref_char' => $node->getTitle(),
+    'type' => 'node',
+    'operation' => 'delete',
+    'description' => t('%type: %title', array(
+        '%type' => $node->getType(),
+        '%title' => $node->getTitle(),
+    )),
+    'ref_numeric' => $node->id(),
+    'ref_char' => $node->getTitle(),
   );
   event_log_track_insert($log);
 }

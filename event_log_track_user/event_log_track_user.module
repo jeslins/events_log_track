@@ -7,19 +7,12 @@
 
 /**
  * Implements hook_event_log_track_handlers().
- * 
- * @return array
- *   An associative array, keyed by event type, and valued by handler info:
- *   - {string} title
- *     The title that describes the events logged by this handler.
- *     This handler's 'form_submit_callback' callback will be notified when a
- *     form is submitted that has an id as specified in this array. Optional.
  */
 function event_log_track_user_event_log_track_handlers() {
   // User event log handler.
   $handlers = array();
   $handlers['user'] = array(
-      'title' => t('User'),
+    'title' => t('User'),
   );
   return $handlers;
 }
@@ -29,14 +22,14 @@ function event_log_track_user_event_log_track_handlers() {
  */
 function event_log_track_user_insert($account) {
   $log = array(
-      'type' => 'user',
-      'operation' => 'insert',
-      'description' => t('%name (uid %uid)', array(
-          '%name' => $account->getUsername(),
-          '%uid' => $account->id()
-      )),
-      'ref_numeric' => $account->id(),
-      'ref_char' => $account->getUsername(),
+    'type' => 'user',
+    'operation' => 'insert',
+    'description' => t('%name (uid %uid)', array(
+        '%name' => $account->getUsername(),
+        '%uid' => $account->id(),
+    )),
+    'ref_numeric' => $account->id(),
+    'ref_char' => $account->getUsername(),
   );
   event_log_track_insert($log);
 }
@@ -46,14 +39,14 @@ function event_log_track_user_insert($account) {
  */
 function event_log_track_user_update($account) {
   $log = array(
-      'type' => 'user',
-      'operation' => 'update',
-      'description' => t('%name (uid %uid)', array(
-          '%name' => $account->original->getUsername(),
-          '%uid' => $account->original->id()
-      )),
-      'ref_numeric' => $account->original->id(),
-      'ref_char' => $account->getUsername(),
+    'type' => 'user',
+    'operation' => 'update',
+    'description' => t('%name (uid %uid)', array(
+        '%name' => $account->original->getUsername(),
+        '%uid' => $account->original->id(),
+    )),
+    'ref_numeric' => $account->original->id(),
+    'ref_char' => $account->getUsername(),
   );
   event_log_track_insert($log);
 }
@@ -63,14 +56,14 @@ function event_log_track_user_update($account) {
  */
 function event_log_track_user_delete($account) {
   $log = array(
-      'type' => 'user',
-      'operation' => 'delete',
-      'description' => t('%name (uid %uid)', array(
-          '%name' => $account->getUsername(),
-          '%uid' => $account->id()
-      )),
-      'ref_numeric' => $account->id(),
-      'ref_char' => $account->getUsername(),
+    'type' => 'user',
+    'operation' => 'delete',
+    'description' => t('%name (uid %uid)', array(
+        '%name' => $account->getUsername(),
+        '%uid' => $account->id(),
+    )),
+    'ref_numeric' => $account->id(),
+    'ref_char' => $account->getUsername(),
   );
   event_log_track_insert($log);
 }

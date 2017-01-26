@@ -2,43 +2,35 @@
 
 /**
  * @file
- * Logs user authentication (login logout and request password) in the
- * event_log_track module.
+ * Logs user authentication (login logout and request password) in the event_log_track module.
  */
 
 /**
  * Implements hook_event_log_track_handlers().
- * 
- * @return array
- *   An associative array, keyed by event type, and valued by handler info:
- *   - {string} title
- *     The title that describes the events logged by this handler.
- *     This handler's 'form_submit_callback' callback will be notified when a
- *     form is submitted that has an id as specified in this array. Optional.
- *   - {array} form_ids_regexp
- *     The same as form_ids, but instead of identical matches regular
- *     expressions can be specified.
- *   - {string} form_submit_callback
- *     Callback that's called when a form is submitted with a form id as
- *     specified in form_ids. The callback function profile:
  */
 function event_log_track_auth_event_log_track_handlers() {
   // User Authentication event log handler.
   $handlers = array();
   $handlers['authentication'] = array(
-      'title' => t('User authentication'),
-      'form_ids' => array('user_login_form', 'user_pass'),
-      'form_submit_callback' => 'event_log_track_auth_form_submit',
+    'title' => t('User authentication'),
+    'form_ids' => array('user_login_form', 'user_pass'),
+    'form_submit_callback' => 'event_log_track_auth_form_submit',
   );
   return $handlers;
 }
 
 /**
  * Event log callback for the user authentication event log.
+ *
  * @param $form
+ *   An associative array containing the structure of the form.
  * @param $form_state
+ *   The current state of the form.
  * @param $form_id
+ *   The id of the form.
+ *
  * @return array
+ *   Return an associative array.
  */
 function event_log_track_auth_form_submit($form, $form_state, $form_id) {
   $account = \Drupal::currentUser();
@@ -46,24 +38,25 @@ function event_log_track_auth_form_submit($form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login_form':
       $log = array(
-          'operation' => 'login',
-          'description' => t('%user (uid %uid)', array(
-              '%user' => $account->getUsername(),
-              '%uid' => $account->id()
-          )),
-          'ref_numeric' => $account->id(),
-          'ref_char' => $account->getUsername(),
+        'operation' => 'login',
+        'description' => t('%user (uid %uid)', array(
+            '%user' => $account->getUsername(),
+            '%uid' => $account->id(),
+        )),
+        'ref_numeric' => $account->id(),
+        'ref_char' => $account->getUsername(),
       );
+
       break;
     case 'user_pass':
       $log = array(
-          'operation' => 'request password',
-          'description' => t('%user (uid %uid)', array(
-              '%user' => $form_state->getValue('name'),
-              '%uid' => $form_state->getValue('account')->id()
-          )),
-          'ref_numeric' => $form_state->getValue('account')->id(),
-          'ref_char' => $form_state->getValue('name'),
+        'operation' => 'request password',
+        'description' => t('%user (uid %uid)', array(
+            '%user' => $form_state->getValue('name'),
+            '%uid' => $form_state->getValue('account')->id(),
+        )),
+        'ref_numeric' => $form_state->getValue('account')->id(),
+        'ref_char' => $form_state->getValue('name'),
       );
       break;
   }
@@ -75,14 +68,14 @@ function event_log_track_auth_form_submit($form, $form_state, $form_id) {
  */
 function event_log_track_auth_user_logout($account) {
   $log = array(
-      'type' => 'authentication',
-      'operation' => 'logout',
-      'description' => t('%user (uid %uid)', array(
-          '%user' => $account->getUsername(),
-          '%uid' => $account->id()
-      )),
-      'ref_numeric' => $account->id(),
-      'ref_char' => $account->getUsername(),
+    'type' => 'authentication',
+    'operation' => 'logout',
+    'description' => t('%user (uid %uid)', array(
+        '%user' => $account->getUsername(),
+        '%uid' => $account->id(),
+    )),
+    'ref_numeric' => $account->id(),
+    'ref_char' => $account->getUsername(),
   );
   event_log_track_insert($log);
 }
@@ -94,18 +87,21 @@ function event_log_track_auth_form_user_login_form_alter(&$form, \Drupal\Core\Fo
   $form['#validate'][] = 'event_log_track_auth_user_login_validate';
 }
 
+/**
+ * Implements hook_form_FORM_ID_validate().
+ */
 function event_log_track_auth_user_login_validate($form, &$form_state) {
   // Check for erros and log them.
   $errors = $form_state->getErrors();
   if (!empty($errors)) {
     $log = array(
-        'type' => 'authentication',
-        'operation' => 'fail',
-        'description' => t('%user (pass %pass)', array(
-            '%user' => $form_state->getValue('name'),
-            '%pass' => $form_state->getValue('pass')
-        )),
-        'ref_char' => $form_state->getValue('name'),
+      'type' => 'authentication',
+      'operation' => 'fail',
+      'description' => t('%user (pass %pass)', array(
+          '%user' => $form_state->getValue('name'),
+          '%pass' => $form_state->getValue('pass'),
+      )),
+      'ref_char' => $form_state->getValue('name'),
     );
     event_log_track_insert($log);
   }
