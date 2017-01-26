@@ -8,6 +8,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
+use \Drupal\user\Entity\User;
 
 /**
  * Configure user settings for this site.
@@ -123,7 +124,7 @@ class OverviewForm extends FormBase {
     $rows = array();
     foreach ($result as $record) {
       if (!empty($record->uid)) {
-        $account = \Drupal\user\Entity\User::load($record->uid);
+        $account = User::load($record->uid);
         $userLink = \Drupal::l($account->getUsername(), Url::fromUri('internal:/user/' . $account->id()));
       }
       else {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\event_log_track;
 
 /**

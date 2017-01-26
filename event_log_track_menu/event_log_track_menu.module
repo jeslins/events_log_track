@@ -1,11 +1,11 @@
 <?php
 
-use \Drupal\Core\Form\FormStateInterface;
-
 /**
  * @file
  * Logs menu CUD commands in the event_log_track module.
  */
+
+use \Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_event_log_track_handlers().
