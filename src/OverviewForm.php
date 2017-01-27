@@ -65,7 +65,7 @@ class OverviewForm extends FormBase {
       '#type' => 'textfield',
       '#size' => 5,
       '#title' => $this->t('ID'),
-      '#description' => $this->t('The id of the subject (numeric).'),
+      '#description' => $this->t('The id of the events (numeric).'),
     );
 
     $form['filters']['ip'] = array(
@@ -79,21 +79,21 @@ class OverviewForm extends FormBase {
       '#type' => 'textfield',
       '#size' => 10,
       '#title' => $this->t('Name'),
-      '#description' => $this->t('The (machine) name of the subject.'),
+      '#description' => $this->t('The name or machine name.'),
     );
 
     $form['filters']['path'] = array(
       '#type' => 'textfield',
       '#size' => 30,
       '#title' => $this->t('Path'),
-      '#description' => $this->t('The full path.'),
+      '#description' => $this->t('keyword in the path.'),
     );
 
     $form['filters']['keyword'] = array(
       '#type' => 'textfield',
       '#size' => 10,
-      '#title' => $this->t('Keyword'),
-      '#description' => $this->t('Search in the description.'),
+      '#title' => $this->t('Description'),
+      '#description' => $this->t('Keyword in the description.'),
     );
 
     $form['filters']['submit'] = array(
