@@ -125,7 +125,7 @@ class OverviewForm extends FormBase {
     foreach ($result as $record) {
       if (!empty($record->uid)) {
         $account = User::load($record->uid);
-        $userLink = \Drupal::l($account->getUsername(), Url::fromUri('internal:/user/' . $account->id()));
+        $userLink = $this->l($account->getUsername(), Url::fromUri('internal:/user/' . $account->id()));
       }
       else {
         $account = NULL;
