@@ -176,6 +176,22 @@ class OverviewForm extends FormBase {
     $form_state->disableRedirect();
     $form_state->setRebuild();
   }
+  
+  /**
+   * Resets all the states of the form.
+   *
+   * This method is called when the "Reset" button is triggered. Clears
+   * user inputs and the form state.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public function resetForm(&$form, FormStateInterface $form_state) {
+    $form_state->setRedirect('<current>');
+    $form_state->setValues([]);
+  }
 
   /**
    * Ajax callback for the operations options.
