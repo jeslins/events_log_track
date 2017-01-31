@@ -30,7 +30,7 @@ class OverviewForm extends FormBase {
       '#type' => 'details',
       '#title' => $this->t('Filters'),
       '#description' => $this->t('Filter the events.'),
-      '#open' => FALSE,
+      '#open' => TRUE,
     );
 
     $handlers = event_log_track_get_event_handlers();
