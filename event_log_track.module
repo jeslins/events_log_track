@@ -49,7 +49,7 @@ function event_log_track_insert(array &$log) {
   if (empty($log['path'])) {
     $log['path'] = Url::fromRoute('<current>')->getInternalPath();
   }
-  
+
   if (empty($log['ref_numeric'])) {
     $log['ref_numeric'] = NULL;
   }
