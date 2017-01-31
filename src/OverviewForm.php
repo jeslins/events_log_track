@@ -101,6 +101,15 @@ class OverviewForm extends FormBase {
       '#value' => $this->t('Submit'),
     );
 
+    if (!empty($form_state->getUserInput())) {
+      $form['filters']['reset'] = array(
+        '#type' => 'submit',
+        '#value' => $this->t('Reset'),
+        '#limit_validation_errors' => array(),
+        '#submit' => array('::resetForm'),
+      );
+    }
+
     $header = array(
         array(
           'data' => $this->t('Updated'),
