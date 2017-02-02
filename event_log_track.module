@@ -8,6 +8,41 @@
 use Drupal\Core\Render\Element;
 use \Drupal\Core\Url;
 use \Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function event_log_track_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.event_log_track':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('You can track logs of specific events that you\'d like to log. The events  by the user (using the forms) are saved in the database and can be viewed on the page admin/reports/events-track. You could use this to track number of times the CUD operation performed by which users. This module required by: Events Log Track User Authentication, Events Log Track Menu, Events Log Track Node, Events Log Track Taxonomy, Events Log Track User.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Events Log Track Menu') . '</dt>';
+      $output .= '<dd>' . t('Using this submodule you can logs menu CUD events performed by the user. This module requires: Events Log Track.') . '</dd>';
+      $output .= '</dl>';      
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Events Log Track Node') . '</dt>';
+      $output .= '<dd>' . t('Using this submodule you can logs node CUD events performed by the user. This module requires: Events Log Track.') . '</dd>';
+      $output .= '</dl>';      
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Events Log Track Taxonomy') . '</dt>';
+      $output .= '<dd>' . t('Using this submodule you can logs taxonomy vocabulary and term CUD events performed by the user. This module requires: Events Log Track.') . '</dd>';
+      $output .= '</dl>';      
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Events Log Track User') . '</dt>';
+      $output .= '<dd>' . t('Using this submodule you can logs user CUD events performed by the user. This module requires: Events Log Track.') . '</dd>';
+      $output .= '</dl>';      
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Events Log Track User Authentication') . '</dt>';
+      $output .= '<dd>' . t('Using this submodule you can logs user authentication (login logout and request password). This module requires: Events Log Track.') . '</dd>';
+      $output .= '</dl>';
+
+      return $output;
+  }
+}
 
 /**
  * Inserts the log record in the event log track. Sets the lid.
