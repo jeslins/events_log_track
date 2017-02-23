@@ -42,7 +42,7 @@ class OverviewForm extends FormBase {
       '#type' => 'select',
       '#title' => $this->t('Type'),
       '#description' => $this->t('Event type'),
-      '#options' => array('' => 'Select a type') + $options,
+      '#options' => array('' => $this->t('Select a type')) + $options,
       '#ajax' => array(
         'callback' => '::formGetAjaxOperation',
         'event' => 'change',
@@ -140,15 +140,15 @@ class OverviewForm extends FormBase {
         $account = NULL;
       }
       $rows[] = array(
-          array('data' => Html::escape(date("Y-m-d H:i:s", $record->created))),
-          array('data' => Html::escape($record->type)),
-          array('data' => Html::escape($record->operation)),
-          array('data' => Html::escape($record->path)),
+          array('data' => date("Y-m-d H:i:s", $record->created)),
+          array('data' => $record->type),
+          array('data' => $record->operation),
+          array('data' => $record->path),
           array('data' => strip_tags($record->description)),
           array('data' => (empty($account) ? '' : $userLink)),
-          array('data' => Html::escape($record->ip)),
-          array('data' => Html::escape($record->ref_numeric)),
-          array('data' => Html::escape($record->ref_char)),
+          array('data' => $record->ip),
+          array('data' => $record->ref_numeric),
+          array('data' => $record->ref_char),
       );
     }
 
