@@ -11,6 +11,9 @@ Currently, the following sub modules of Events Log Track are supported:
 - Taxonomy (vocabulary and term CUD operations)
 - User (CUD operations)
 - User authentication (login/logout/request password)
+- File (CUD operations)
+- Media (CUD operations)
+- Workflows (CUD operations)
 
 The event log track can be easily extended with custom events.
 

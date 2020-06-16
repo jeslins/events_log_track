@@ -5,79 +5,96 @@
  * Install, update and uninstall functions for the event_log_track module.
  */
 
+use Drupal\Core\Database\Database;
+
 /**
  * Implements hook_schema().
  */
 function event_log_track_schema() {
-  $schema['event_log_track'] = array(
+  $schema['event_log_track'] = [
     'description' => 'Logged events by the event_log_track module.',
-    'fields' => array(
-      'lid' => array(
+    'fields' => [
+      'lid' => [
         'description' => 'Log id.',
         'type' => 'serial',
         'not null' => TRUE,
-      ),
-      'type' => array(
+      ],
+      'type' => [
         'description' => 'Event handler type.',
         'type' => 'varchar',
         'length' => '50',
         'not null' => TRUE,
-      ),
-      'operation' => array(
+      ],
+      'operation' => [
         'description' => 'The operation performed.',
         'type' => 'varchar',
         'length' => '50',
         'not null' => TRUE,
-      ),
-      'path' => array(
+      ],
+      'path' => [
         'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
         'default' => '',
         'description' => 'Current path.',
-      ),
-      'ref_numeric' => array(
+      ],
+      'ref_numeric' => [
         'description' => 'A numeric value that can be used to reference an object.',
         'type' => 'int',
         'not null' => FALSE,
-      ),
-      'ref_char' => array(
+      ],
+      'ref_char' => [
         'description' => 'A character value that can be used to reference an object.',
         'type' => 'varchar',
-        'length' => '50',
+        'length' => '255',
         'not null' => FALSE,
-      ),
-      'description' => array(
+      ],
+      'description' => [
         'description' => 'Description of the event, in HTML.',
         'type' => 'text',
         'size' => 'medium',
         'not null' => TRUE,
-      ),
-      'uid' => array(
+      ],
+      'uid' => [
         'description' => 'User id that triggered this event (0 = anonymous user).',
         'type' => 'int',
         'not null' => TRUE,
-      ),
-      'ip' => array(
+      ],
+      'ip' => [
         'description' => 'IP address of the visitor that triggered this event.',
         'type' => 'varchar',
         'length' => '255',
         'not null' => FALSE,
-      ),
-      'created' => array(
+      ],
+      'created' => [
         'description' => 'The event timestamp.',
         'type' => 'int',
         'not null' => TRUE,
-      ),
-    ),
-    'primary key' => array('lid'),
-    'indexes' => array(
-      'created' => array('created'),
-      'user' => array('uid', 'ip'),
-      'ip' => array('ip'),
-      'join' => array('type', 'operation', 'ref_numeric', 'ref_char'),
-    ),
-  );
+      ],
+    ],
+    'primary key' => ['lid'],
+    'indexes' => [
+      'created' => ['created'],
+      'user' => ['uid', 'ip'],
+      'ip' => ['ip'],
+      'join' => ['type', 'operation', 'ref_numeric', 'ref_char'],
+    ],
+  ];
 
   return $schema;
+}
+
+/**
+ * Increase "ref_char" field size
+ */
+function event_log_track_update_8101($sandbox) {
+  $field = [
+    'description' => 'A character value that can be used to reference an object.',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => FALSE,
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->changeField('event_log_track', 'ref_char', 'ref_char', $field);
+  return t('"ref_char" field size increased.');
 }

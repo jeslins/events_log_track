@@ -25,7 +25,7 @@
  *   event_log_track_save function.
  */
 function hook_event_log_track_handlers() {
-  $handlers = array();
+  $handlers = [];
 
   return $handlers;
 }

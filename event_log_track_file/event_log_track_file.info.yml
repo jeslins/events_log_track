@@ -1,5 +1,5 @@
-name: Events Log Track User
-description: 'Logs user CUD events performed by the user.'
+name: Events Log Track File
+description: 'Logs file CUD events performed by the user.'
 type: module
 dependencies:
   - event_log_track:event_log_track

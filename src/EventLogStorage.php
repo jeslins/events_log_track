@@ -72,15 +72,14 @@ class EventLogStorage {
    *   A form element.
    */
   public static function formGetOperations($type) {
-    $element = array(
+    $element = [
       '#type' => 'select',
       '#name' => 'operation',
-      '#title' => t('Operation'),
-      '#description' => t('The entity operation.'),
-      '#options' => array('' => t('Choose an operation')),
+      '#title' => t('CUD Operation'),
+      '#options' => ['' => t('Choose an operation')],
       '#prefix' => '<div id="operation-dropdown-replace">',
       '#suffix' => '</div>',
-    );
+    ];
     if ($type) {
       $db = \Drupal::database();
       $query = $db->select('event_log_track', 'e')
@@ -91,7 +90,7 @@ class EventLogStorage {
       $query->distinct(TRUE);
       $results = $query->execute()->fetchAllKeyed(0);
 
-      $operations = array();
+      $operations = [];
       foreach ($results as $name => $count) {
         $operations[$name] = $name . ' (' . $count . ')';
       }

@@ -1,0 +1,4 @@
+log_filter_form:
+  css:
+    theme:
+      css/event_log_track.admin.css: {}

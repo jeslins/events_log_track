@@ -4,16 +4,62 @@ namespace Drupal\event_log_track;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
-use \Drupal\user\Entity\User;
+use Drupal\Core\Link;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure user settings for this site.
  */
 class OverviewForm extends FormBase {
+  /**
+   * The user storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $userStorage;
+
+  /**
+   * Constructs a new OverviewForm.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $user_storage
+   *   The custom block storage.
+   */
+  public function __construct(EntityStorageInterface $user_storage) {
+    $this->userStorage = $user_storage;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $entity_type_manager = $container->get('entity_type.manager');
+    return new static(
+      $entity_type_manager->getStorage('user')
+    );
+  }
+
+  /**
+   * Return user link.
+   */
+  private function getUserData($uid) {
+    if (empty($uid)) {
+      return Markup::create('<em>' . $this->t('Anonymous') . '</em>');
+    }
+
+    $account = $this->userStorage->load($uid);
+    if (empty($account)) {
+      return Markup::create('<em>' . $this->t('@uid (deleted)', [
+        '@uid' => $uid,
+      ]) . '<em>');
+    }
+
+    return Link::fromTextAndUrl($account->getUsername(), Url::fromUri('internal:/user/' . $account->id()));
+  }
 
   /**
    * {@inheritdoc}
@@ -26,144 +72,140 @@ class OverviewForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['filters'] = array(
+    $form['filters'] = [
+      '#prefix' => '<div class="container-inline">',
       '#type' => 'details',
-      '#title' => $this->t('Filters'),
-      '#description' => $this->t('Filter the events.'),
+      '#title' => $this->t('Filter'),
       '#open' => TRUE,
-    );
+
+    ];
+    $form['#attached']['library'][] = 'event_log_track/log_filter_form';
 
     $handlers = event_log_track_get_event_handlers();
-    $options = array();
+    $options = [];
     foreach ($handlers as $type => $handler) {
       $options[$type] = $handler['title'];
     }
-    $form['filters']['type'] = array(
+    $form['filters']['type'] = [
       '#type' => 'select',
-      '#title' => $this->t('Type'),
-      '#description' => $this->t('Event type'),
-      '#options' => array('' => $this->t('Select a type')) + $options,
-      '#ajax' => array(
+      '#title' => $this->t('Event Type'),
+      '#options' => ['' => $this->t('Select a type')] + $options,
+      '#ajax' => [
         'callback' => '::formGetAjaxOperation',
         'event' => 'change',
-      ),
-    );
+      ],
+    ];
 
     $form['filters']['operation'] = EventLogStorage::formGetOperations(empty($form_state->getUserInput()['type']) ? '' : $form_state->getUserInput()['type']);
 
-    $form['filters']['user'] = array(
+    $form['filters']['user'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'user',
       '#selection_settings' => ['include_anonymous' => FALSE],
       '#title' => $this->t('User'),
-      '#description' => $this->t('The user that triggered this event.'),
+      '#placeholder' => $this->t('User who triggered this event.'),
       '#size' => 30,
       '#maxlength' => 60,
-    );
+    ];
 
-    $form['filters']['id'] = array(
+    $form['filters']['id'] = [
       '#type' => 'textfield',
-      '#size' => 5,
+      '#size' => 30,
       '#title' => $this->t('ID'),
-      '#description' => $this->t('The id of the events (numeric).'),
-    );
+      '#placeholder' => $this->t('Id of the events (numeric).'),
+    ];
 
-    $form['filters']['ip'] = array(
+    $form['filters']['ip'] = [
       '#type' => 'textfield',
-      '#size' => 20,
+      '#size' => 30,
       '#title' => $this->t('IP'),
-      '#description' => $this->t('The ip address of the visitor.'),
-    );
+      '#placeholder' => $this->t('IP address of the visitor.'),
+    ];
 
-    $form['filters']['name'] = array(
+    $form['filters']['name'] = [
       '#type' => 'textfield',
-      '#size' => 10,
+      '#size' => 30,
       '#title' => $this->t('Name'),
-      '#description' => $this->t('The name or machine name.'),
-    );
+      '#placeholder' => $this->t('Name or machine name.'),
+    ];
 
-    $form['filters']['path'] = array(
+    $form['filters']['path'] = [
       '#type' => 'textfield',
       '#size' => 30,
       '#title' => $this->t('Path'),
-      '#description' => $this->t('keyword in the path.'),
-    );
+      '#placeholder' => $this->t('keyword in the path.'),
+    ];
 
-    $form['filters']['keyword'] = array(
+    $form['filters']['keyword'] = [
       '#type' => 'textfield',
-      '#size' => 10,
+      '#size' => 30,
       '#title' => $this->t('Description'),
-      '#description' => $this->t('Keyword in the description.'),
-    );
+      '#placeholder' => $this->t('Keyword in the description.'),
+      '#suffix' => '</div>',
+    ];
 
-    $form['filters']['submit'] = array(
+    $form['filters']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
-    );
+      '#value' => $this->t('Filter'),
+    ];
 
     if (!empty($form_state->getUserInput())) {
-      $form['filters']['reset'] = array(
+      $form['filters']['reset'] = [
         '#type' => 'submit',
         '#value' => $this->t('Reset'),
-        '#limit_validation_errors' => array(),
-        '#submit' => array('::resetForm'),
-      );
+        '#limit_validation_errors' => [],
+        '#submit' => ['::resetForm'],
+      ];
     }
 
-    $header = array(
-        array(
+    $header = [
+        [
           'data' => $this->t('Updated'),
           'field' => 'created',
           'sort' => 'desc',
-        ),
-        array('data' => $this->t('Type'), 'field' => 'type'),
-        array('data' => $this->t('Operation'), 'field' => 'operation'),
-        array('data' => $this->t('Path'), 'field' => 'path'),
-        array('data' => $this->t('Description'), 'field' => 'description'),
-        array('data' => $this->t('User'), 'field' => 'uid'),
-        array('data' => $this->t('IP'), 'field' => 'ip'),
-        array('data' => $this->t('ID'), 'field' => 'ref_numeric'),
-        array('data' => $this->t('Name'), 'field' => 'ref_char'),
-    );
+        ],
+        ['data' => $this->t('Type'), 'field' => 'type'],
+        ['data' => $this->t('Operation'), 'field' => 'operation'],
+        ['data' => $this->t('Path'), 'field' => 'path'],
+        ['data' => $this->t('Description'), 'field' => 'description'],
+        ['data' => $this->t('User'), 'field' => 'uid'],
+        ['data' => $this->t('IP'), 'field' => 'ip'],
+        ['data' => $this->t('ID'), 'field' => 'ref_numeric'],
+        ['data' => $this->t('Name'), 'field' => 'ref_char'],
+    ];
 
-    $formData = (!empty($form_state->getUserInput())) ? $form_state->getUserInput() : array();
+    $formData = (!empty($form_state->getUserInput())) ? $form_state->getUserInput() : [];
     $limit = 20;
     $result = EventLogStorage::getSearchData($formData, $header, $limit);
 
-    $rows = array();
+    $rows = [];
     foreach ($result as $record) {
-      if (!empty($record->uid)) {
-        $account = User::load($record->uid);
-        $userLink = $this->l($account->getUsername(), Url::fromUri('internal:/user/' . $account->id()));
-      }
-      else {
-        $account = NULL;
-      }
-      $rows[] = array(
-          array('data' => date("Y-m-d H:i:s", $record->created)),
-          array('data' => $record->type),
-          array('data' => $record->operation),
-          array('data' => $record->path),
-          array('data' => strip_tags($record->description)),
-          array('data' => (empty($account) ? '' : $userLink)),
-          array('data' => $record->ip),
-          array('data' => $record->ref_numeric),
-          array('data' => $record->ref_char),
-      );
+      $userLink = $this->getUserData($record->uid);
+      $rows[] = [
+          ['data' => date("Y-m-d H:i:s", $record->created)],
+          ['data' => $record->type],
+          ['data' => $record->operation],
+          ['data' => $record->path],
+          ['data' => strip_tags($record->description)],
+          ['data' => $userLink],
+          ['data' => $record->ip],
+          ['data' => $record->ref_numeric],
+          ['data' => $record->ref_char],
+      ];
     }
 
     // Generate the table.
-    $build['config_table'] = array(
+    $build['config_table'] = [
       '#theme' => 'table',
       '#header' => $header,
       '#rows' => $rows,
       '#empty' => $this->t('No events found.'),
-    );
+    ];
 
     // Finally add the pager.
-    $build['pager'] = array(
+    $build['pager'] = [
       '#type' => 'pager',
-    );
+    ];
     $form['results'] = $build;
 
     return $form;

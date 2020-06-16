@@ -68,7 +68,7 @@ function event_log_track_insert(array &$log) {
   }
 
   if (empty($log['created'])) {
-    $log['created'] = REQUEST_TIME;
+    $log['created'] = \Drupal::time()->getRequestTime();
   }
 
   if (empty($log['uid'])) {
@@ -91,7 +91,7 @@ function event_log_track_insert(array &$log) {
 
   \Drupal::database()->merge('event_log_track')
     ->key('lid')
-    ->fields(array(
+    ->fields([
       'type' => $log['type'],
       'operation' => $log['operation'],
       'description' => $log['description'],
@@ -101,7 +101,7 @@ function event_log_track_insert(array &$log) {
       'path' => $log['path'],
       'ref_char' => $log['ref_char'],
       'ref_numeric' => $log['ref_numeric'],
-    ))
+    ])
     ->execute();
 }
 
@@ -184,7 +184,9 @@ function event_log_track_form_alter(&$form, FormStateInterface $form_state, $for
  */
 function event_log_track_add_submit_handler(array &$element, $callback) {
   if (array_key_exists("#submit", $element)) {
-    $element["#submit"][] = $callback;
+    if ((!empty($element['#type']) && $element['#type'] == 'form') || count($element["#submit"])) {
+      $element["#submit"][] = $callback;
+    }
   }
   $keys = Element::children($element);
   foreach ($keys as $key) {

@@ -1,0 +1,10 @@
+/**
+ * @file
+ * Administration styles for the events log track filter form.
+ */
+#event-log-track-filter label{
+  display: table;
+  margin: 0 0 0.1em;
+  padding: 0;
+  font-weight: bold;
+}
