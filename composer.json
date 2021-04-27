@@ -1,0 +1,14 @@
+{
+    "name": "jeslins/events_log_track",
+    "type": "drupal-module",
+    "description": "Logs general CUD events performed by the user (using the forms) on the website.",
+    "keywords": ["Drupal"],
+    "homepage": "https://github.com/jeslins/events_log_track",
+    "license": "GPLv3",
+    "minimum-stability": "dev",
+    "extra": {
+      "branch-alias": {
+        "8.x-2.x": "2.x-dev"
+      }
+    }
+  }
