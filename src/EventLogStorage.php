@@ -48,10 +48,10 @@ class EventLogStorage {
       $query->condition('ref_char', $getData['name']);
     }
     if (!empty($getData['path'])) {
-      $query->condition('path', '%' . db_like($getData['path']) . '%', 'LIKE');
+      $query->condition('path', '%' . $db->escapeLike($getData['path']) . '%', 'LIKE');
     }
     if (!empty($getData['keyword'])) {
-      $query->condition('description', '%' . db_like($getData['keyword']) . '%', 'LIKE');
+      $query->condition('description', '%' . $db->escapeLike($getData['keyword']) . '%', 'LIKE');
     }
     if (!empty($getData['user'])) {
       $getUid = substr($getData['user'], strrpos($getData['user'], '(') + 1, -1);

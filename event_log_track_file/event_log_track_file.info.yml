@@ -3,5 +3,5 @@ description: 'Logs file CUD events performed by the user.'
 type: module
 dependencies:
   - event_log_track:event_log_track
-core: '8.x'
+core_version_requirement: ^8 || ^9
 package: Statistics

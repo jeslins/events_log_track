@@ -35,11 +35,11 @@ function event_log_track_auth_form_submit($form, $form_state, $form_id) {
       $log = [
         'operation' => 'login',
         'description' => t('%user (uid %uid)', [
-          '%user' => $account->getUsername(),
+          '%user' => $account->getAccountName(),
           '%uid' => $account->id(),
         ]),
         'ref_numeric' => $account->id(),
-        'ref_char' => $account->getUsername(),
+        'ref_char' => $account->getAccountName(),
       ];
       break;
 
@@ -72,11 +72,11 @@ function event_log_track_auth_user_logout($account) {
     'type' => 'authentication',
     'operation' => 'logout',
     'description' => t('%user (uid %uid)', [
-      '%user' => $account->getUsername(),
+      '%user' => $account->getAccountName(),
       '%uid' => $account->id(),
     ]),
     'ref_numeric' => $account->id(),
-    'ref_char' => $account->getUsername(),
+    'ref_char' => $account->getAccountName(),
   ];
   event_log_track_insert($log);
 }
